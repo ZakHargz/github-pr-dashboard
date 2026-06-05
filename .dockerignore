@@ -1,0 +1,28 @@
+# Dependencies — reinstalled inside the image
+node_modules
+
+# Build output — produced inside the image
+.next
+
+# Source control
+.git
+.gitignore
+
+# Docker artefacts themselves
+Dockerfile
+.dockerignore
+
+# Local env files (never bake secrets into image)
+.env
+.env.*
+!.env.example
+
+# Editor / OS noise
+.DS_Store
+*.swp
+*.swo
+.idea
+.vscode
+
+# Test / CI output
+coverage
