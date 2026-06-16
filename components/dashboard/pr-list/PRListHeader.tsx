@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { useTheme } from '@/hooks/use-theme'
 import { timeAgo } from '@/lib/date'
 import {
@@ -35,6 +36,14 @@ export function PRListHeader({
 }: PRListHeaderProps) {
   const { isDark, toggle: toggleTheme } = useTheme()
 
+  // Tick every 10 s so the relative timestamp stays current independently
+  // of any parent re-render cycle.
+  const [, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick(n => n + 1), 10_000)
+    return () => clearInterval(id)
+  }, [])
+
   return (
     <div className="border-b border-border bg-muted/40">
       {/* Title + action buttons */}
@@ -49,30 +58,49 @@ export function PRListHeader({
         </span>
 
         <div className="flex items-center gap-0.5">
-          <Button
-            variant="ghost" size="icon-sm"
-            title={autoRefresh ? 'Auto-refresh on — click to disable' : 'Auto-refresh off — click to enable (5 min)'}
-            onClick={onToggleAutoRefresh}
-            className={autoRefresh ? 'text-primary hover:text-primary' : ''}
-          >
-            <ClockIcon spinning={loading && autoRefresh} />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger render={
+              <Button
+                variant="ghost" size="icon-sm"
+                onClick={onToggleAutoRefresh}
+                className={autoRefresh ? 'text-primary hover:text-primary' : ''}
+              />
+            }>
+              <ClockIcon spinning={loading && autoRefresh} />
+            </TooltipTrigger>
+            <TooltipContent>
+              {autoRefresh ? 'Auto-refresh on — click to disable' : 'Auto-refresh off — click to enable (5 min)'}
+            </TooltipContent>
+          </Tooltip>
 
-          <Button
-            variant="ghost" size="icon-sm"
-            title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-            onClick={toggleTheme}
-          >
-            {isDark ? <SunIcon /> : <MoonIcon />}
-          </Button>
+          <Tooltip>
+            <TooltipTrigger render={
+              <Button variant="ghost" size="icon-sm" onClick={toggleTheme} />
+            }>
+              {isDark ? <SunIcon /> : <MoonIcon />}
+            </TooltipTrigger>
+            <TooltipContent>
+              {isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+            </TooltipContent>
+          </Tooltip>
 
-          <Button variant="ghost" size="icon-sm" title="Refresh now" onClick={onRefresh} disabled={loading}>
-            <RefreshIcon className={loading && !autoRefresh ? 'animate-spin' : ''} />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger render={
+              <Button variant="ghost" size="icon-sm" onClick={onRefresh} disabled={loading} />
+            }>
+              <RefreshIcon className={loading && !autoRefresh ? 'animate-spin' : ''} />
+            </TooltipTrigger>
+            <TooltipContent>Refresh now</TooltipContent>
+          </Tooltip>
 
-          <Button variant="ghost" size="icon-sm" title="Settings" onClick={onSettings}>
-            <GearIcon />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger render={
+              <Button variant="ghost" size="icon-sm" onClick={onSettings} />
+            }>
+              <GearIcon />
+            </TooltipTrigger>
+            <TooltipContent>Settings</TooltipContent>
+          </Tooltip>
         </div>
       </div>
 

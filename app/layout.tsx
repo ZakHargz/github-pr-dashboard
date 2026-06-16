@@ -1,22 +1,27 @@
 import type { Metadata } from 'next'
-import { Inter, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
+// import { Inter, Source_Serif_4, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
-const inter = Inter({
-  variable: '--font-sans',
-  subsets: ['latin'],
-})
+// Fonts disabled for Docker build
+const inter = { variable: '' }
+const sourceSerif = { variable: '' }
+const jetBrainsMono = { variable: '' }
 
-const sourceSerif = Source_Serif_4({
-  variable: '--font-serif',
-  subsets: ['latin'],
-})
-
-const jetBrainsMono = JetBrains_Mono({
-  variable: '--font-mono',
-  subsets: ['latin'],
-})
+// const inter = Inter({
+//   variable: '--font-sans',
+//   subsets: ['latin'],
+// })
+//
+// const sourceSerif = Source_Serif_4({
+//   variable: '--font-serif',
+//   subsets: ['latin'],
+// })
+//
+// const jetBrainsMono = JetBrains_Mono({
+//   variable: '--font-mono',
+//   subsets: ['latin'],
+// })
 
 export const metadata: Metadata = {
   title: 'GitHub PR Dashboard',

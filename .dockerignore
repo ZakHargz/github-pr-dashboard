@@ -1,8 +1,8 @@
-# Dependencies — reinstalled inside the image
-node_modules
+# Dependencies — will be built fresh in Docker
+# node_modules
 
-# Build output — produced inside the image
-.next
+# Build output — must be pre-built locally with `npm run build`
+# .next
 
 # Source control
 .git

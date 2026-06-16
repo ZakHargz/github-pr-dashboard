@@ -78,7 +78,7 @@ export default function PRList({
         onToggleFilterMine={() => setFilterMine(f => !f)}
       />
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 min-h-0">
         {errors.length > 0 && (
           <div className="p-3 space-y-2">
             {errors.map((err, i) => <RepoErrorBanner key={i} error={err} />)}
